@@ -46,7 +46,7 @@ export interface ISale {
 }
 
 export interface IBroker {
-  'Registration_Date': string;
+  'Registration Date': string;
   Email: string;
   Nombre: string;
   Apellido: string;

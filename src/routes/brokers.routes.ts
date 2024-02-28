@@ -18,7 +18,7 @@ const service = new BrokersService()
 
 function createBrokersFromExcelData (excelData: any[]): IBroker[] {
   return excelData.map((row) => ({
-    'Registration_Date': convertExcelDateToJSDate(row['Registration_Date']),
+    'Registration Date': convertExcelDateToJSDate(row['Registration Date']),
     Email: row.Email,
     Nombre: row.Nombre,
     Apellido: row.Apellido,
@@ -47,7 +47,7 @@ router.post('/excel', upload.single('file'), async (req, res) => {
     const sheetName = workbook.SheetNames[0]
     const worksheet = workbook.Sheets[sheetName]
     const excelData = XLSX.utils.sheet_to_json(worksheet)
-    
+
     const brokers = await createBrokersFromExcelData(excelData)
 
     await service.createMany(brokers)
