@@ -5,7 +5,7 @@ import mongoose, { Schema } from 'mongoose'
 import { IBroker } from '../interfaces'
 
 const brokerSchema: Schema = new Schema({
-  Time: String,
+  'Registration_Date': String,
   Email: String,
   Nombre: String,
   Apellido: String,

@@ -18,7 +18,7 @@ const service = new BrokersService()
 
 function createBrokersFromExcelData (excelData: any[]): IBroker[] {
   return excelData.map((row) => ({
-    Time: convertExcelDateToJSDate(row.Time),
+    'Registration_Date': convertExcelDateToJSDate(row['Registration_Date']),
     Email: row.Email,
     Nombre: row.Nombre,
     Apellido: row.Apellido,
