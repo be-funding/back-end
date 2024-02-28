@@ -50,8 +50,6 @@ router.post('/excel', upload.single('file'), async (req, res) => {
 
     const brokers = await createBrokersFromExcelData(excelData)
 
-    console.log(brokers)
-
     await service.createMany(brokers)
 
     res.status(201).send('Brokers imported successfully')

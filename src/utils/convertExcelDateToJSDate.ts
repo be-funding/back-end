@@ -1,5 +1,4 @@
 export const convertExcelDateToJSDate = (excelDate: number): string => {
-  console.log(typeof excelDate === 'string')
   if (typeof excelDate === 'string') return excelDate
 
   const millisecondsSince1970 = (excelDate - 25569) * 86400 * 1000
