@@ -1,11 +1,14 @@
 // @packages
+import * as XLSX from 'xlsx'
 import express, { Request, Response } from 'express'
+import multer from 'multer'
 
 // @scripts
 import DepositsService from '../services/deposits.service'
 import { convertExcelDateToJSDate } from '../utils/convertExcelDateToJSDate'
-import { parseExcelFile, deleteFile } from '../utils/excelUtils'
-import { upload } from '../utils/multerConfig'
+
+const storage = multer.memoryStorage()
+const upload = multer({ storage })
 
 // @interfaces
 import { IDeposit } from '../interfaces'
@@ -39,12 +42,16 @@ router.get('/', async (_: Request, res: Response) => {
 
 router.post('/excel', upload.single('file'), async (req, res) => {
   try {
-    const excelData = await parseExcelFile(req?.file?.path as string)
+    const excelBuffer = req?.file?.buffer
+
+    const workbook = XLSX.read(excelBuffer, { type: 'buffer' })
+    const sheetName = workbook.SheetNames[0]
+    const worksheet = workbook.Sheets[sheetName]
+    const excelData = XLSX.utils.sheet_to_json(worksheet)
+    
     const deposits = await createDepositsFromExcelData(excelData)
 
     await service.createMany(deposits as any)
-
-    deleteFile(req?.file?.path as string)
 
     res.status(201).send('Clients imported successfully')
   } catch (error) {

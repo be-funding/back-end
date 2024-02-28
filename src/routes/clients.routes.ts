@@ -1,15 +1,14 @@
 // @packages
+import * as XLSX from 'xlsx'
 import express, { Request, Response } from 'express'
+import multer from 'multer'
 
 // @scripts
 import ClientsService from '../services/clients.service'
 import { convertExcelDateToJSDate } from '../utils/convertExcelDateToJSDate'
-import { parseExcelFile, deleteFile } from '../utils/excelUtils'
 
-import multer from 'multer';
-const storage = multer.memoryStorage();
-const upload = multer({ storage });
-import * as XLSX from 'xlsx'; // Import the entire XLSX object
+const storage = multer.memoryStorage()
+const upload = multer({ storage })
 
 // @interfaces
 import { IClient } from '../interfaces'
@@ -53,20 +52,14 @@ router.post('/', async (req, res) => {
 
 router.post('/excel', upload.single('file'), async (req, res) => {
   try {
-    // Access the file buffer directly
     const excelBuffer = req?.file?.buffer
 
-    // Parse the Excel file from the buffer
     const workbook = XLSX.read(excelBuffer, { type: 'buffer' })
     const sheetName = workbook.SheetNames[0]
     const worksheet = workbook.Sheets[sheetName]
     const excelData = XLSX.utils.sheet_to_json(worksheet)
 
-    // Continue with your existing logic using parsed excelData
     const clients = await createClientsFromExcelData(excelData)
-
-    console.log('excelData', excelData)
-    console.log('clients', clients)
 
     await service.createMany(clients)
 
