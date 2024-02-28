@@ -32,7 +32,7 @@ router.get('/', async (_: Request, res: Response) => {
     if (clients) return res.status(200).json(clients)
     else return res.status(404).send('Error getting clients')
   } catch (error) {
-    return res.status(500).send('Internal Server Error')
+    return res.status(500).send('Internal Server Errorr')
   }
 })
 
@@ -43,7 +43,7 @@ router.post('/', async (req, res) => {
     if (newClient) return res.status(201).json(newClient)
     else return res.status(404).send('Error creating client')
   } catch (error) {
-    return res.status(500).send('Internal Server Error')
+    return res.status(500).send('Internal Server Errorrr')
   }
 })
 
