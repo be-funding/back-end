@@ -1,36 +1,16 @@
-# ML Challenge API
+# Be Funding front-end
 
----
+This is a [Express.js](https://expressjs.com) project.
 
-## Description:
+## How to use
 
-Mercado Libre Challenge.
+Download the project [or clone the repo](https://github.com/be-funding/back-end):
 
-API deployed in ().
-
-# Requeriments:
-
-- [Git](https://git-scm.com/)
-- [Node.js](https://nodejs.org/en/)
-
-
-# Installation:
-
-Open a console (terminal) and create the **ML Challenge**'s folder. Once folder is created, follow this instructions
+Install it and run:
 
 ```bash
-# Clone project
-$ https://github.com/WilferSalas/ml-challenge-api.git
-
-# Enter to project's folder
-$ cd ml-challenge
-
-# Install dependencies
-$ npm i
-
-# Run the project
-$ npm run dev
-
-# Go to 
-http://localhost:3001
+npm install
+npm run dev
 ```
+
+Open [http://localhost:8080](http://localhost:8080) with your browser to see the result.
