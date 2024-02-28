@@ -1,18 +1,14 @@
-import multer from 'multer';
-import path from 'path';
-import fs from 'fs';
+// multerConfig.ts
 
-const uploadDir = path.join(__dirname, 'uploads');
-// Verifica si el directorio de carga existe, si no, créalo
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-}
+import multer from 'multer'
 
 const storage = multer.diskStorage({
-  destination: uploadDir,
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
+  destination: (req, file, cb) => {
+    cb(null, './uploads/')
   },
-});
+  filename: (req, file, cb) => {
+    cb(null, file.originalname)
+  }
+})
 
-export const upload = multer({ storage });
+export const upload = multer({ storage })

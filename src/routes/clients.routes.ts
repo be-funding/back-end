@@ -1,16 +1,15 @@
 // @packages
 import express, { Request, Response } from 'express'
-import multer from 'multer'
-import * as XLSX from 'xlsx'; // Import the entire XLSX object
 
 // @scripts
 import ClientsService from '../services/clients.service'
 import { convertExcelDateToJSDate } from '../utils/convertExcelDateToJSDate'
 import { parseExcelFile, deleteFile } from '../utils/excelUtils'
-// import { upload } from '../utils/multerConfig'
 
+import multer from 'multer';
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
+import * as XLSX from 'xlsx'; // Import the entire XLSX object
 
 // @interfaces
 import { IClient } from '../interfaces'
@@ -37,7 +36,7 @@ router.get('/', async (_: Request, res: Response) => {
     if (clients) return res.status(200).json(clients)
     else return res.status(404).send('Error getting clients')
   } catch (error) {
-    return res.status(500).send('Internal Server Errorr')
+    return res.status(500).send('Internal Server Error')
   }
 })
 
@@ -48,34 +47,34 @@ router.post('/', async (req, res) => {
     if (newClient) return res.status(201).json(newClient)
     else return res.status(404).send('Error creating client')
   } catch (error) {
-    return res.status(500).send('Internal Server Errorrr')
+    return res.status(500).send('Internal Server Error')
   }
 })
 
 router.post('/excel', upload.single('file'), async (req, res) => {
   try {
     // Access the file buffer directly
-    const excelBuffer = req?.file?.buffer;
+    const excelBuffer = req?.file?.buffer
 
     // Parse the Excel file from the buffer
-    const workbook = XLSX.read(excelBuffer, { type: 'buffer' });
-    const sheetName = workbook.SheetNames[0];
-    const worksheet = workbook.Sheets[sheetName];
-    const excelData = XLSX.utils.sheet_to_json(worksheet);
+    const workbook = XLSX.read(excelBuffer, { type: 'buffer' })
+    const sheetName = workbook.SheetNames[0]
+    const worksheet = workbook.Sheets[sheetName]
+    const excelData = XLSX.utils.sheet_to_json(worksheet)
 
     // Continue with your existing logic using parsed excelData
-    const clients = await createClientsFromExcelData(excelData);
+    const clients = await createClientsFromExcelData(excelData)
 
-    console.log('excelData', excelData);
-    console.log('clients', clients);
+    console.log('excelData', excelData)
+    console.log('clients', clients)
 
-    await service.createMany(clients);
+    await service.createMany(clients)
 
-    res.status(201).send('Clients imported successfully');
+    res.status(201).send('Clients imported successfully')
   } catch (error) {
     console.error(error);
-    res.status(500).send('Error importing clients');
+    res.status(500).send('Error importing clients')
   }
-});
+})
 
 export default router
