@@ -52,6 +52,9 @@ router.post('/excel', upload.single('file'), async (req, res) => {
     const excelData = await parseExcelFile(req?.file?.path as string)
     const clients = await createClientsFromExcelData(excelData)
 
+    console.log('excelData', excelData)
+    console.log('clients', clients)
+
     await service.createMany(clients)
 
     deleteFile(req?.file?.path as string)
